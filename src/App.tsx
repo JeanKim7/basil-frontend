@@ -14,8 +14,8 @@ import MyRecipes from './views/MyRecipes';
 import CreateRecipe from './views/CreateRecipe';
 import SearchRecipe from './views/SearchRecipe';
 
-import { getMe, getAllRecipes } from './lib/apiWrapper'
-import { RecipeType, UserType } from './types';
+import { getMe } from './lib/apiWrapper'
+import { UserType } from './types';
 
 export default function App() {
 
