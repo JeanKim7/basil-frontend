@@ -48,7 +48,7 @@ export default function CreateRecipe() {
 
             
         
-            <Card className= 'my-5 p-3'>
+            <Card className= 'my-5 p-3 recipe-input'>
             <h1 className = "text-center my-3">Create a Recipe</h1>
                 <Form onSubmit={handleFormSubmit}>
                     <Form.Label htmlFor="name">Name of Your Recipe</Form.Label> 

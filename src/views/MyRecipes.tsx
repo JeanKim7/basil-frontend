@@ -63,7 +63,7 @@ export default function MyRecipes() {
         <>
 
         
-            <Card className ='my-5 p-3'>
+            <Card className ='my-5 p-3 recipe-input'>
 
             <h1 className = "text-center my-3">Edit a Recipe</h1>
                 <Form onSubmit={handleFormSubmit}>
@@ -95,7 +95,8 @@ export default function MyRecipes() {
                     </Container>
                 </Form>
             </Card>
-            <Card className ='my-5 p-3'>
+            <Card className ='my-5 p-3 recipe-input'>
+            <h1 className = "text-center my-3">Delete a Recipe</h1>
                 <Form onSubmit = {handleDeleteFormSubmit}>
                     <Form.Label htmlFor="deleteRecipeID">What is the ID of the recipe you want to delete?</Form.Label>
                     <Form.Control name="deleteRecipeID" placeholder="Enter the recipe ID" value = {deleteRecipeID} onChange = {handleInputChangeDelete}></Form.Control> 

@@ -24,7 +24,7 @@ export default function LandingPage () {
                 <li>Responsive web design</li>
                 <li>Importing urls to save recipes</li>
                 <li>Comment system</li>
-                <li>Post pictures and notes on each attempt at using a recipe</li>
+                <li>Post pictures and notes on each attempt at making a recipe</li>
             </ul>
         </Card>
     </Col>
