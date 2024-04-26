@@ -35,7 +35,7 @@ export default function MyRecipes() {
             console.log(response.error)
         } else if (response.data){
             console.log(response.data)
-            navigate('/')
+            navigate('/Home')
         }
     }
 
@@ -52,7 +52,7 @@ export default function MyRecipes() {
             console.log(response.error)
         } else if (response.data){
             console.log(response.data)
-            navigate('/')
+            navigate('/Home')
         }
     }
 
