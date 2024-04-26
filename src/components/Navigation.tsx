@@ -13,7 +13,7 @@ export default function Navigation({isLoggedIn, logUserOut}: NavigationProps) {
   return (
     <Navbar id='navbar' className='white1'>
         <Container fluid>
-            <Navbar.Brand id = "brand" href= {isLoggedIn ?'/Home': '/'} className='white1'>Basil</Navbar.Brand>
+            <Navbar.Brand as={Link} to = {isLoggedIn ?'/Home': '/'} id = "brand" className='white1'>Basil</Navbar.Brand>
             <Nav>
                 {isLoggedIn ? (
                   <>

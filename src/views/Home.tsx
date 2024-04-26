@@ -4,6 +4,7 @@ import  RecipeCard  from '../components/RecipeCard'
 import { UserType, RecipeType } from '../types';
 import { getAllRecipes } from '../lib/apiWrapper';
 
+
 type HomeProps = {
     currentUser: UserType | null,
 
