@@ -12,9 +12,7 @@ type HomeProps = {
 
 export default function Home ({currentUser}:HomeProps){
 
-    let body: HTMLElement= document.body
-
-    body.setAttribute("style", "backgroundImage: '/floor-1256804_1280.png")
+    
     
     const [recipes, setRecipes] = useState<RecipeType[]>([])
     const [fetchRecipeData, setFetchRecipeData] = useState(true);
@@ -26,7 +24,7 @@ export default function Home ({currentUser}:HomeProps){
         
         async function fetchData(){
             const response = await getAllRecipes();
-            if (response.data){
+                if (response.data){
                 console.log(response.data)
                 let recipes = response.data;
                 recipes.sort( (a, b) => (new Date(a.dateCreated) > new Date(b.dateCreated) ? -1 : 1) );
@@ -44,10 +42,10 @@ export default function Home ({currentUser}:HomeProps){
     return( 
     <>
         <h1 className = "text-center my-4">Featured Recipes</h1>
-        {recipes.length !== 0 ? recipes.filter(r => r.author.id !==currentUser!.id).map(r => <RecipeCard key = {r.id} recipe={r} fetchDataRecipeChild={fetchRecipeDataChild} />) : <></>}
+        {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id !==currentUser?.id).map(r => <RecipeCard key = {r.id} recipe={r} fetchDataRecipeChild={fetchRecipeDataChild} />)}
         <h1 className = "text-center mb-4"> My Recipes</h1>
-        {recipes.length !== 0 ? recipes.filter(r => r.author.id ===currentUser!.id).map(r => <RecipeCard key = {r.id} recipe={r} fetchDataRecipeChild={fetchRecipeDataChild}/>): <></>}
-        {recipes.filter(r => r.author.id ===currentUser!.id ).length === 0 ? <h3>None to display</h3>: <></>}
+        {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id ===currentUser?.id).map(r => <RecipeCard key = {r.id} recipe={r} fetchDataRecipeChild={fetchRecipeDataChild}/>)}
+        {recipes?.filter(r => r.author.id ===currentUser?.id ).length === 0 ? <h3>None to display</h3>: <></>}
 
 
     </>
