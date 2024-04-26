@@ -1,0 +1,115 @@
+.outfit-uniquifier {
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.lobster-regular {
+  font-family: "Lobster", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#navbar {
+    background-color: rgb(118, 45, 45);
+    
+}
+
+body {
+    background-color: #2F4841;
+    font-family: 'Outfit', sans-serif;
+    color: #E5E1DE;
+    background-image: url(./assets/spaghetti-1932466_1280.jpg);
+    background-attachment: fixed;
+    
+}
+
+.white1 {
+  color: #E5E1DE;
+  font-size:1.1em
+}
+
+#brand {
+  font-family:  'Lobster', sans-serif;
+  font-size: 2em
+}
+
+.landing-heading {
+  margin-top:25vh;
+  color: #e8d7cb;
+  background-color: #2f4841bf;
+  padding: 3vw;
+  width: 37vw
+}
+
+.ld2 {
+  margin-top:15vh
+}
+
+.btn {
+  background-color: rgb(118, 45, 45);
+  color: #E5E1DE;
+  border-color: rgb(97, 37, 37);
+  width: 10vw
+}
+
+.card {
+  color: #e8d7cb;
+  background-color: #2f4841e4;
+  padding: 3vw
+}
+
+.start-form {
+  padding: 1vw;
+  width: 30vw;
+  margin: 3vh 0vh
+}
+
+.form-control {
+  padding:0.5vh;
+  font-size: 0.8em;
+}
+
+.input-group-text {
+  font-size: 0.8em;
+  height:4vh
+}
+
+.form-label {
+  margin: 0.3em 0em
+}
+
+#password {
+  height: 4vh;
+}
+
+#sign-up-btn {
+  background-color: rgb(118, 45, 45);
+  color: #E5E1DE;
+  border-color: rgb(97, 37, 37);
+  width: 10vw;
+  opacity:1;
+  margin-top: 2vh
+}
+
+.login {
+  margin-top:20vh
+}
+
+.btn {
+  margin-top:2vh
+}
+
+.card-header, .card-body, .card-footer, .card-title {
+  color: #E5E1DE;
+}
+
+.button-size {
+  width: 15vw
+}
+
+.searchbar {
+  width:30vw;
+  margin-top: 5vw
+}
