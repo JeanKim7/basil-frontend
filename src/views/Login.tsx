@@ -29,7 +29,7 @@ export default function Login ({logUserIn}: LoginProps) {
     }
 
     const handleFormSubmit = async (e:React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault();``
         console.log('Logging in...')
 
         const response = await login(userFormData.username!, userFormData.password!)

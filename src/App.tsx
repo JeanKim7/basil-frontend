@@ -15,12 +15,16 @@ import CreateRecipe from './views/CreateRecipe';
 import SearchRecipe from './views/SearchRecipe';
 
 import { getMe } from './lib/apiWrapper'
-import { UserType } from './types';
+import { CategoryType, UserType } from './types';
 
 export default function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') && new Date(localStorage.getItem('tokenExp')||0) > new Date() ? true : false);
   const [loggedInUser, setLoggedInUser] = useState<UserType|null>(null)
+
+  const [message, setMessage] = useState<string | undefined>(undefined)
+  const [category, setCategory] = useState<CategoryType|undefined>(undefined)
+
 
   useEffect(() => {
     console.log('This is running')
@@ -39,12 +43,12 @@ export default function App() {
     }
 
     getLoggedInUser()
-}, [isLoggedIn])
+  }, [isLoggedIn])
   
 
   const logUserIn = () => {
   setIsLoggedIn(true)
-}
+  }
 
   const logUserOut = () => {
     setIsLoggedIn(false);
@@ -53,7 +57,12 @@ export default function App() {
     localStorage.removeItem('tokenExp')
     localStorage.removeItem('currentUserId');
     console.log('You have been logged out')
-}
+  }
+
+  const flashMessage = (newMessage:string | undefined, newCategory: CategoryType | undefined) => {
+    setMessage(newMessage);
+    setCategory(newCategory);
+  }
   
 
   return (

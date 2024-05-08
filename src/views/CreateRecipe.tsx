@@ -72,7 +72,7 @@ export default function CreateRecipe() {
                     <Form.Label htmlFor="instructions">Instructions</Form.Label>
                     <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {recipe.instructions} onChange={handleInputChange} />
                     <Container className ="d-flex justify-content-center">
-                        <Button type='submit' className='button-size'>Create Recipe</Button>
+                    <Button type='submit' className='button-size'>Create Recipe</Button>
                     </Container>
                 </Form>
             </Card>
