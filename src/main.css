@@ -115,5 +115,29 @@ body {
 }
 
 .recipe-input {
-  width:60vw
+  width:60vw;
+  border: none;
+}
+
+.recipe-card-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#input-accord {
+  width: 65vw;
+  background-color: #2f4841;
+  border-radius:10vh
+}
+
+.accord1 {
+  background-color: #2f4841;
+  border:none;
+  /* border-radius: 10vh; */
+}
+
+.accordion-button {
+  background-color: #2f4841;
+  color: #E5E1DE;
 }

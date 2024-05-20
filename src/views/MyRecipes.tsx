@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container'
+import Container from 'react-bootstrap/Container';
+import Accordion from 'react-bootstrap/Accordion';
 
-import { RecipeFormDataType } from '../types';
-import { editRecipeById, deleteRecipeById } from '../lib/apiWrapper';
+import { RecipeFormDataType, Ingredient } from '../types';
+import { createRecipe, editRecipeById, deleteRecipeById } from '../lib/apiWrapper';
 
 export default function MyRecipes() {
 
@@ -17,6 +18,50 @@ export default function MyRecipes() {
     const [editRecipeData, setEditRecipeData] = useState<Partial<RecipeFormDataType>>({})
     const [editRecipeID, setEditRecipeID] = useState<string>('')
     const [deleteRecipeID, setDeleteRecipeID]= useState<string>('')
+    const [recipe, setRecipe] = useState<RecipeFormDataType>({
+        name: '',
+        description: '',
+        cuisine: "",
+        cookTime: "",
+        servings: '',
+        ingredients: '',
+        instructions: ''
+        }
+    )
+    
+    const [ingredients, setIngredients] = useState<Ingredient[]>([{
+        name: '',
+        quantity: 0,
+        unit: ''
+    }])
+    const [ingredientCount, setIngredientCount] = useState<number>(0)
+
+
+    const handleIngredientInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        let newIngredient: Ingredient={
+            name: '',
+            quantity: 0,
+            unit: ''
+        }
+        Object.assign({...newIngredient, [event.target.name]: event.target.value})
+    }
+
+    const handleCreateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRecipe({...recipe, [event.target.name]:event.target.value})
+    }
+
+    const handleCreateFormSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        const token=localStorage.getItem('token') || ''
+        const response = await createRecipe(token, recipe)
+        if (response.error){
+            console.log(response.error)
+        } else if (response.data){
+            console.log(response.data)
+            navigate('/')
+        }
+    }
 
     const handleInputChangeEditRecipeID = (event:React.ChangeEvent<HTMLInputElement>) => {
         setEditRecipeID(event.target.value)
@@ -62,50 +107,94 @@ export default function MyRecipes() {
     return (
         <>
 
-        
-            <Card className ='my-5 p-3 recipe-input'>
+            <Accordion className='mt-3 accord1' id='input-accord'>
+                <Accordion.Item className='accord1' eventKey='0'>
+                    <Accordion.Header className='accord1'>Create a New Recipe</Accordion.Header>
+                    <Accordion.Body>
+                        <Card className= 'my-1 p-3 recipe-input'>
+                            <Form onSubmit={handleCreateFormSubmit}>
+                                <Form.Label htmlFor="name">Name of Your Recipe</Form.Label> 
+                                <Form.Control name="name" placeholder="Enter a name for your recipe" value= {recipe.name} onChange={handleCreateInputChange} />
 
-            <h1 className = "text-center my-3">Edit a Recipe</h1>
-                <Form onSubmit={handleFormSubmit}>
-                    <Form.Label htmlFor='recipeID'>Recipe ID</Form.Label>
-                    <Form.Control name = "recipeID" placeholder="Enter the ID of the recipe you want to edit" value= {editRecipeID} onChange = {handleInputChangeEditRecipeID}></Form.Control>
+                                <Form.Label htmlFor="description">Description</Form.Label> 
+                                <Form.Control name="description" placeholder="Enter a description for your recipe" value= {recipe.description} onChange={handleCreateInputChange} />
 
-                    <Form.Label htmlFor="name">Name of Your Recipe</Form.Label> 
-                    <Form.Control name="name" placeholder="Enter a name for your recipe" value= {editRecipeData.name} onChange={handleInputChange} />
+                                <Form.Label htmlFor="cuisine">Cuisine</Form.Label>
+                                <Form.Control name="cuisine" placeholder="Enter the cuisine type of your recipe" value= {recipe.cuisine} onChange={handleCreateInputChange} />
 
-                    <Form.Label htmlFor="description">Description</Form.Label> 
-                    <Form.Control name="description" placeholder="Enter a description for your recipe" value= {editRecipeData.description} onChange={handleInputChange} />
+                                <Form.Label htmlFor="cookTime">Cooking Time</Form.Label>
+                                <Form.Control name="cookTime" placeholder="Enter the time it will take to make your recipe" value= {recipe.cookTime} onChange={handleCreateInputChange} />
 
-                    <Form.Label htmlFor="cuisine">Cuisine</Form.Label>
-                    <Form.Control name="cuisine" placeholder="Enter the cuisine type of your recipe" value= {editRecipeData.cuisine} onChange={handleInputChange} />
+                                <Form.Label htmlFor="servings">Servings</Form.Label>
+                                <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {recipe.servings} onChange={handleCreateInputChange} />
 
-                    <Form.Label htmlFor="cookTime">Cooking Time</Form.Label>
-                    <Form.Control name="cookTime" placeholder="Enter the time it will take to make your recipe" value= {editRecipeData.cookTime} onChange={handleInputChange} />
+                                <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
+                                <Form.Control as= "textarea" name="ingredients" placeholder="Enter the Ingredients for your recipe" value= {recipe.ingredients} onChange={handleCreateInputChange} />
 
-                    <Form.Label htmlFor="servings">Servings</Form.Label>
-                    <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {editRecipeData.servings} onChange={handleInputChange} />
+                                <Form.Label htmlFor="instructions">Instructions</Form.Label>
+                                <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {recipe.instructions} onChange={handleCreateInputChange} />
+                                <Container className ="d-flex justify-content-center">
+                                <Button type='submit' className='button-size'>Create Recipe</Button>
 
-                    <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
-                    <Form.Control as= "textarea" name="ingredients" placeholder="Enter the Ingredients for your recipe" value= {editRecipeData.ingredients} onChange={handleInputChange} />
+                                {}
+                                </Container>
+                            </Form>
+                        </Card>
+                    </Accordion.Body>
+                </Accordion.Item>
 
-                    <Form.Label htmlFor="instructions">Instructions</Form.Label>
-                    <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {editRecipeData.instructions} onChange={handleInputChange} />
-                    <Container className ="d-flex justify-content-center">
-                        <Button type='submit' className='button-size'>Edit Recipe</Button>
-                    </Container>
-                </Form>
-            </Card>
-            <Card className ='my-5 p-3 recipe-input'>
-            <h1 className = "text-center my-3">Delete a Recipe</h1>
-                <Form onSubmit = {handleDeleteFormSubmit}>
-                    <Form.Label htmlFor="deleteRecipeID">What is the ID of the recipe you want to delete?</Form.Label>
-                    <Form.Control name="deleteRecipeID" placeholder="Enter the recipe ID" value = {deleteRecipeID} onChange = {handleInputChangeDelete}></Form.Control> 
-                    
-                    <Container className ="d-flex justify-content-center">
-                        <Button variant="danger" type="submit" className='button-size'>Delete Recipe</Button>
-                    </Container>
-                </Form>
-            </Card>
+                <Accordion.Item className='accord1' eventKey='1'>
+                    <Accordion.Header>Edit a Recipe</Accordion.Header>
+                    <Accordion.Body>
+                        <Card className ='my-1 p-3 recipe-input'>
+                            <Form onSubmit={handleFormSubmit}>
+                                <Form.Label htmlFor='recipeID'>Recipe ID</Form.Label>
+                                <Form.Control name = "recipeID" placeholder="Enter the ID of the recipe you want to edit" value= {editRecipeID} onChange = {handleInputChangeEditRecipeID}></Form.Control>
+
+                                <Form.Label htmlFor="name">Name of Your Recipe</Form.Label> 
+                                <Form.Control name="name" placeholder="Enter a name for your recipe" value= {editRecipeData.name} onChange={handleInputChange} />
+
+                                <Form.Label htmlFor="description">Description</Form.Label> 
+                                <Form.Control name="description" placeholder="Enter a description for your recipe" value= {editRecipeData.description} onChange={handleInputChange} />
+
+                                <Form.Label htmlFor="cuisine">Cuisine</Form.Label>
+                                <Form.Control name="cuisine" placeholder="Enter the cuisine type of your recipe" value= {editRecipeData.cuisine} onChange={handleInputChange} />
+
+                                <Form.Label htmlFor="cookTime">Cooking Time</Form.Label>
+                                <Form.Control name="cookTime" placeholder="Enter the time it will take to make your recipe" value= {editRecipeData.cookTime} onChange={handleInputChange} />
+
+                                <Form.Label htmlFor="servings">Servings</Form.Label>
+                                <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {editRecipeData.servings} onChange={handleInputChange} />
+
+                                <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
+                                <Form.Control as= "textarea" name="ingredients" placeholder="Enter the Ingredients for your recipe" value= {editRecipeData.ingredients} onChange={handleInputChange} />
+
+                                <Form.Label htmlFor="instructions">Instructions</Form.Label>
+                                <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {editRecipeData.instructions} onChange={handleInputChange} />
+                                <Container className ="d-flex justify-content-center">
+                                    <Button type='submit' className='button-size'>Edit Recipe</Button>
+                                </Container>
+                            </Form>
+                        </Card>
+                    </Accordion.Body>
+                </Accordion.Item>
+
+                <Accordion.Item className='accord1' eventKey='2'>
+                    <Accordion.Header className='accord1'>Delete a Recipe</Accordion.Header>
+                    <Accordion.Body>
+                        <Card className ='my-1 p-3 recipe-input'>
+                            <Form onSubmit = {handleDeleteFormSubmit}>
+                                <Form.Label htmlFor="deleteRecipeID">What is the ID of the recipe you want to delete?</Form.Label>
+                                <Form.Control name="deleteRecipeID" placeholder="Enter the recipe ID" value = {deleteRecipeID} onChange = {handleInputChangeDelete}></Form.Control> 
+                                
+                                <Container className ="d-flex justify-content-center">
+                                    <Button variant="danger" type="submit" className='button-size'>Delete Recipe</Button>
+                                </Container>
+                            </Form>
+                        </Card>
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
         </>
     )
 }

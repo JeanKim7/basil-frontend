@@ -36,15 +36,18 @@ export default function RecipeCard({ recipe, fetchDataRecipeChild }: RecipeCardP
             }
     }
 
+    const viewRecipe= () => {
+        
+    }
+
     return (
         <Card className='my-3 bg-custom' text='black'>
-            <Card.Header>{ recipe.cookTime }</Card.Header>
+            <Card.Header>{ recipe.name }</Card.Header>
             <Card.Body>
-                <Card.Title>{ recipe.name }</Card.Title>
+                <Card.Title>{ recipe.description }</Card.Title>
                 <Card.Subtitle>{ recipe.servings }</Card.Subtitle>
-                <Card.Text>{ recipe.ingredients }</Card.Text>
-                <Card.Text>{ recipe.instructions }</Card.Text>
-                <Card.Footer>{`By: ${recipe.author.username}    |    id:${recipe.id}`}</Card.Footer>
+                <Card.Footer className= "recipe-card-footer"><div className='foot1'>{`By: ${recipe.author.username}`}</div><div className='foot2'>{`id:${recipe.id}`}</div></Card.Footer>
+                <Button onClick={()=>viewRecipe}>View Recipe</Button>
             </Card.Body>
             {recipe.author.id !== currentUser.id ? <Container className ="d-flex justify-content-center"><Button className='button-size' onClick = {() => saveRecipe(recipe)}>Save recipe</Button></Container>: <></>}
         </Card>

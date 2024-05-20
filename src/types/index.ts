@@ -107,4 +107,11 @@ export type apiRecipeType = {
         dateModified: string | null,
     }
 
+export type Ingredient = {
+    name: string,
+    quantity: number,
+    unit: string
+}
+
     export type CategoryType = 'primary' |'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
+

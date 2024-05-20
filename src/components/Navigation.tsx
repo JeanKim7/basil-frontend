@@ -19,7 +19,6 @@ export default function Navigation({isLoggedIn, logUserOut}: NavigationProps) {
                   <>
                   <Nav.Link as={Link} to='/Home' className='white1'>Home</Nav.Link>
                   <Nav.Link as={Link} to = '/myRecipes' className='white1'>My Recipes</Nav.Link>
-                  <Nav.Link as ={Link} to='/createRecipe' className='white1'>Create a New Recipe</Nav.Link>
                   <Nav.Link as= {Link} to ='/search' className='white1'>Search Recipes</Nav.Link>
                   <Nav.Link as = {Link} onClick={()=>logUserOut()} to ='/' className='white1'>Log Out</Nav.Link>
                 </>
