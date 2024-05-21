@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 
-import { RecipeFormDataType, Ingredient } from '../types';
+import { RecipeFormDataType} from '../types';
 import { createRecipe } from '../lib/apiWrapper';
 
 export default function CreateRecipe() {
@@ -24,7 +24,6 @@ export default function CreateRecipe() {
         instructions: ''
         }
     )
-    const [ingredients, setIngredients] = useState<Ingredient[]>([])
     
 
     const handleCreateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +66,7 @@ export default function CreateRecipe() {
 
                     <Form.Label htmlFor="servings">Servings</Form.Label>
                     <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {recipe.servings} onChange={handleCreateInputChange} />
-
+                    
                     <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
                     <Form.Control as= "textarea" name="ingredients" placeholder="Enter the Ingredients for your recipe" value= {recipe.ingredients} onChange={handleCreateInputChange} />
 

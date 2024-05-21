@@ -29,22 +29,23 @@ export default function MyRecipes() {
         }
     )
     
-    const [ingredients, setIngredients] = useState<Ingredient[]>([{
-        name: '',
+    //Using a list of ingredient objects to keep trak of input for each form =================
+
+    const [ingredients, setIngredients] = useState<Ingredient[]>([
+        {name: '',
         quantity: 0,
-        unit: ''
-    }])
-    const [ingredientCount, setIngredientCount] = useState<number>(0)
-
-
-    const handleIngredientInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-        let newIngredient: Ingredient={
-            name: '',
-            quantity: 0,
-            unit: ''
+        unit: ""
         }
-        Object.assign({...newIngredient, [event.target.name]: event.target.value})
+    ])
+
+    //trying to create a use state in a list for each form that is created
+    function handleIngreInputChange (index: number, event: React.ChangeEvent<HTMLInputElement>) {
+        let data = [...ingredients]
+        data[index][event.target.name] = event?.target.value
+        setIngredients(data)
     }
+
+    //Stop checking here===================================
 
     const handleCreateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRecipe({...recipe, [event.target.name]:event.target.value})
@@ -128,15 +129,30 @@ export default function MyRecipes() {
                                 <Form.Label htmlFor="servings">Servings</Form.Label>
                                 <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {recipe.servings} onChange={handleCreateInputChange} />
 
-                                <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
-                                <Form.Control as= "textarea" name="ingredients" placeholder="Enter the Ingredients for your recipe" value= {recipe.ingredients} onChange={handleCreateInputChange} />
+                                {//Check here Travis!============================}
+}
+                                <div>
+                                <Button>Add Ingredients</Button>
+                                {ingredients?.map((i, index) => 
+                                    <>
+                                    <Form.Control key={index} name="name" placeholder="Enter the name of the ingredient" value = {ingredients[index].name} onChange={handleIngreInputChange(index, event)}/>
+
+                                    <Form.Control key={index} name="quantity" placeholder="Enter the quantity of the ingredient" value = {ingredients[index].quantity} onChange={handleIngreInputChange(index, e)}/>
+
+                                    <Form.Control key={index} name="unit" placeholder="Enter the unit for the ingredient" value = {ingredients[index].unit} onChange={handleIngreInputChange(index, e)}/>
+                                    </>
+                                )}
+                                </div>
+
+                                {//Stop here!============================}
+}
 
                                 <Form.Label htmlFor="instructions">Instructions</Form.Label>
                                 <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {recipe.instructions} onChange={handleCreateInputChange} />
+                                
                                 <Container className ="d-flex justify-content-center">
                                 <Button type='submit' className='button-size'>Create Recipe</Button>
 
-                                {}
                                 </Container>
                             </Form>
                         </Card>
