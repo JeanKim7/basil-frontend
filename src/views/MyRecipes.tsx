@@ -33,18 +33,26 @@ export default function MyRecipes() {
 
     const [ingredients, setIngredients] = useState<Ingredient[]>([
         {name: '',
-        quantity: 0,
+        quantity: "",
         unit: ""
         }
     ])
 
     //trying to create a use state in a list for each form that is created
-    function handleIngreInputChange (index: number, event: React.ChangeEvent<HTMLInputElement>) {
-        let data = [...ingredients]
-        data[index][event.target.name] = event?.target.value
-        setIngredients(data)
+    function handleIngreInputChange (index: number, event) {
+        const {name, value} = event.target
+        const updatedIngredients = [...ingredients]
+        updatedIngredients[index] = {...updatedIngredients[index], [name]:value}
+        setIngredients(updatedIngredients)
     }
 
+    const newIngred = () => {
+        setIngredients([...ingredients,{
+        name: '',
+        quantity: "",
+        unit: ""
+        }])
+    }
     //Stop checking here===================================
 
     const handleCreateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,23 +137,25 @@ export default function MyRecipes() {
                                 <Form.Label htmlFor="servings">Servings</Form.Label>
                                 <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {recipe.servings} onChange={handleCreateInputChange} />
 
-                                {//Check here Travis!============================}
-}
+
                                 <div>
-                                <Button>Add Ingredients</Button>
+                                <Button onClick = {newIngred}>Add Ingredients</Button>
                                 {ingredients?.map((i, index) => 
-                                    <>
-                                    <Form.Control key={index} name="name" placeholder="Enter the name of the ingredient" value = {ingredients[index].name} onChange={handleIngreInputChange(index, event)}/>
+                                    <div key={index}>
+                                    <h5>Ingredient {index+1}</h5>
+                                    <Form.Label htmlFor='name'>Ingredient Name</Form.Label>
+                                    <Form.Control name="name" placeholder="Enter the name of the ingredient" value = {i.name} onChange={(event) =>handleIngreInputChange(index, event)}/>
+                                    
+                                    <Form.Label htmlFor='quantity'>Quantity</Form.Label>
+                                    <Form.Control name="quantity" placeholder="Enter the quantity of the ingredient" value = {i.quantity} onChange={(event)=>handleIngreInputChange(index, event)}/>
 
-                                    <Form.Control key={index} name="quantity" placeholder="Enter the quantity of the ingredient" value = {ingredients[index].quantity} onChange={handleIngreInputChange(index, e)}/>
-
-                                    <Form.Control key={index} name="unit" placeholder="Enter the unit for the ingredient" value = {ingredients[index].unit} onChange={handleIngreInputChange(index, e)}/>
-                                    </>
+                                    <Form.Label htmlFor="unit">Units for Quantity</Form.Label>
+                                    <Form.Control name="unit" placeholder="Enter the unit for the ingredient" value = {i.unit} onChange={(event) =>handleIngreInputChange(index, event)}/>
+                                    </div>
                                 )}
                                 </div>
 
-                                {//Stop here!============================}
-}
+
 
                                 <Form.Label htmlFor="instructions">Instructions</Form.Label>
                                 <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {recipe.instructions} onChange={handleCreateInputChange} />
