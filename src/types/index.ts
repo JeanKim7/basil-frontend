@@ -113,5 +113,10 @@ export type Ingredient = {
     unit: string
 }
 
+export type Instruction = {
+    stepNumber: string,
+    body: string
+}
+
     export type CategoryType = 'primary' |'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
 

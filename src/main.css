@@ -22,8 +22,12 @@ body {
     color: #E5E1DE;
     background-image: url(./assets/spaghetti-1932466_1280.jpg);
     background-attachment: fixed;
+    background-size: cover;
+    /* background-repeat: no-repeat; */
+
     
 }
+
 
 .white1 {
   color: #E5E1DE;

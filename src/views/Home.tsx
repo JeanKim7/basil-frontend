@@ -31,7 +31,7 @@ export default function Home ({currentUser}:HomeProps){
         setViewID(+event.currentTarget.id) 
     }
 
-    const showTable = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const showTable = () => {
         setView(true)
         setViewID(0)
     }
@@ -97,7 +97,7 @@ export default function Home ({currentUser}:HomeProps){
                         <td>{r.id}</td>
                         <td>{r.name}</td>
                         <td></td>
-                        <td><Button id={`${r.id}`}>View Recipe</Button></td>
+                        <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
                     </tr>)}
                 </tbody>
             </Table>

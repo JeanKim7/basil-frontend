@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Accordion from 'react-bootstrap/Accordion';
 
-import { RecipeFormDataType, Ingredient } from '../types';
+import { RecipeFormDataType, Ingredient, Instruction } from '../types';
 import { createRecipe, editRecipeById, deleteRecipeById } from '../lib/apiWrapper';
 
 export default function MyRecipes() {
@@ -29,7 +29,6 @@ export default function MyRecipes() {
         }
     )
     
-    //Using a list of ingredient objects to keep trak of input for each form =================
 
     const [ingredients, setIngredients] = useState<Ingredient[]>([
         {name: '',
@@ -53,7 +52,28 @@ export default function MyRecipes() {
         unit: ""
         }])
     }
-    //Stop checking here===================================
+
+    const [instructions, setInstructions] = useState<Instruction[]>([
+        {stepNumber: "",
+        body: ""
+        }
+    ]
+    )
+
+    function handleStepInputChange(index:number, event) {
+        const {name, value}= event.target
+        const updatedInstructions = [...instructions]
+        updatedInstructions[index] = {...updatedInstructions[index], [name]:value}
+        updatedInstructions[index].stepNumber = `${index+1}`
+        setInstructions(updatedInstructions)
+    }
+
+    const newStep = () => {
+        setInstructions([...instructions, {
+            stepNumber: "",
+            body:""
+        }])
+    }
 
     const handleCreateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRecipe({...recipe, [event.target.name]:event.target.value})
@@ -155,11 +175,23 @@ export default function MyRecipes() {
                                 )}
                                 </div>
 
-
-
-                                <Form.Label htmlFor="instructions">Instructions</Form.Label>
-                                <Form.Control as= "textarea" name="instructions" placeholder="Enter the Instructions for your recipe" value= {recipe.instructions} onChange={handleCreateInputChange} />
+                                <div>
+                                <Button onClick = {newStep}>Add Step</Button>
+                                {instructions?.map((i, index) => 
+                                    <div key={index}>
+                                    <h5>Step {index+1}</h5>
                                 
+                                    
+                                    
+                                    <Form.Control name="body" placeholder="Enter what to do for this step" value = {i.body} onChange={(event)=>handleStepInputChange(index, event)}/>
+
+                    
+                                    </div>
+                                )}
+                                </div>
+
+
+
                                 <Container className ="d-flex justify-content-center">
                                 <Button type='submit' className='button-size'>Create Recipe</Button>
 
