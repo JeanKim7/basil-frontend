@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserType, UserFormDataType, TokenType, RecipeType, RecipeFormDataType, apiResponseType } from '../types';
+import { UserType, UserFormDataType, TokenType, RecipeType, RecipeFormDataType, apiResponseType, IngredientType, InstructionType } from '../types';
 
 const baseURL = 'https://project-basil-database.onrender.com'
 const userEndpoint = '/users'
@@ -102,9 +102,11 @@ async function getAllRecipes(): Promise<APIResponse<RecipeType[]>>{
 
 }
 
-async function createRecipe(token:string, recipeData: RecipeFormDataType) {
+async function createRecipe(token:string, recipeData: RecipeFormDataType, ingredientsData: IngredientType[], instructionsData: InstructionType[]) {
     let data;
     let error;
+    let data1;
+    let data2;
     console.log(recipeData)
     try{
         const response = await apiClientTokenAuth(token).post(recipeEndpoint, recipeData)
@@ -116,7 +118,17 @@ async function createRecipe(token:string, recipeData: RecipeFormDataType) {
             error = 'Something went wrong'
         }
     }
-    return { data, error }
+    if (data) {
+        data1 = await Promise.all(
+            ingredientsData.map(
+                i => apiClientTokenAuth(token).post(`recipes/${data.id}/ingredients`, i))
+        )
+        data2= await Promise.all(
+            instructionsData.map(
+                i => apiClientTokenAuth(token).post(`recipes/${data.id}/instructions`, i))
+            )
+    }
+    return { data, data1, data2, error }
 }
 
 async function getRecipeById(recipeId:string|number): Promise<APIResponse<RecipeType>> {

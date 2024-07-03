@@ -22,8 +22,6 @@ export default function RecipeCard({ recipe, fetchDataRecipeChild }: RecipeCardP
             cuisine: recipe.cuisine,
             cookTime:recipe.cookTime,
             servings: recipe.servings,
-            ingredients: recipe.ingredients,
-            instructions: recipe.instructions
         }
     
         const token=localStorage.getItem('token') || ''
@@ -43,7 +41,6 @@ export default function RecipeCard({ recipe, fetchDataRecipeChild }: RecipeCardP
             <Card.Body>
                 <Card.Title>{ recipe.description }</Card.Title>
                 <Card.Subtitle>{ recipe.servings }</Card.Subtitle>
-                <Card.Text>{recipe.instructions}</Card.Text>
                 <Card.Footer className= "recipe-card-footer"><div className='foot1'>{`By: ${recipe.author.username}`}</div><div className='foot2'>{`id:${recipe.id}`}</div></Card.Footer>
             </Card.Body>
             {recipe.author.id !== currentUser.id ? <Container className ="d-flex justify-content-center"><Button className='button-size' onClick = {() => saveRecipe(recipe)}>Save recipe</Button></Container>: <></>}

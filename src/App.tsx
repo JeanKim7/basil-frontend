@@ -11,7 +11,7 @@ import SignUp from './views/SignUp';
 import Login from './views/Login';
 import Home from './views/Home'
 import MyRecipes from './views/MyRecipes';
-import CreateRecipe from './views/CreateRecipe';
+import CreateRecipe from './components/CreateRecipeForm';
 import SearchRecipe from './views/SearchRecipe';
 
 import { getMe } from './lib/apiWrapper'

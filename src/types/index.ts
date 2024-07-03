@@ -23,8 +23,6 @@ export type RecipeType = {
     cuisine: string,
     cookTime:string,
     servings: string,
-    ingredients:string,
-    instructions:string,
     dateCreated: string,
     author:UserType, 
     comments: string
@@ -36,9 +34,7 @@ export type RecipeFormDataType = {
     description:string,
     cuisine:string,
     cookTime: string,
-    servings: string,
-    ingredients: string,
-    instructions:string
+    servings: string
 }
 
 
@@ -107,13 +103,13 @@ export type apiRecipeType = {
         dateModified: string | null,
     }
 
-export type Ingredient = {
+export type IngredientType = {
     name: string,
     quantity: string,
     unit: string
 }
 
-export type Instruction = {
+export type InstructionType = {
     stepNumber: string,
     body: string
 }
