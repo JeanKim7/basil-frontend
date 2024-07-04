@@ -147,8 +147,8 @@ async function getRecipeById(recipeId:string|number) {
         }
     }
     if (data) {
-        data1= await apiClientNoAuth().get(`recipes/${recipeId}/ingredients`);
-        data2= await apiClientNoAuth().get(`recipes/${recipeId}/instructions`)
+        data1= await apiClientNoAuth().get(`/recipes/${recipeId}/ingredients`);
+        data2= await apiClientNoAuth().get(`/recipes/${recipeId}/instructions`)
     }
     return [data, data1, data2, error]
 }

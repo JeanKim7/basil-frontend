@@ -34,9 +34,7 @@ export default function Home ({currentUser}:HomeProps){
         const recipeData = await getRecipeById(+event.currentTarget.id)
         console.log(recipeData)
         setIngredients(recipeData[1])
-        console.log(ingredients)
-        setInstructions(recipeData[2])
-        console.log(instructions)    
+        setInstructions(recipeData[2])   
     }
 
     const showTable = () => {
