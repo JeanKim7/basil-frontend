@@ -17,8 +17,6 @@ const saveRecipe = async (recipe: RecipeFormDataType) => {
         cuisine: recipe.cuisine,
         cookTime:recipe.cookTime,
         servings: recipe.servings,
-        ingredients: recipe.ingredients,
-        instructions: recipe.instructions
     }
 
     const token=localStorage.getItem('token') || ''

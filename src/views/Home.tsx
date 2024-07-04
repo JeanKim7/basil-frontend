@@ -4,8 +4,8 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 
 import  RecipeCard  from '../components/RecipeCard'
-import { UserType, RecipeType } from '../types';
-import { getAllRecipes } from '../lib/apiWrapper';
+import { UserType, RecipeType, IngredientType, InstructionType } from '../types';
+import { getAllRecipes, getRecipeById } from '../lib/apiWrapper';
 
 
 type HomeProps = {
@@ -19,6 +19,8 @@ export default function Home ({currentUser}:HomeProps){
     
     
     const [recipes, setRecipes] = useState<RecipeType[]>([])
+    const [ingredients, setIngredients] = useState<IngredientType[]>([])
+    const [instructions, setInstructions] = useState<InstructionType[]>([])
     const [fetchRecipeData, setFetchRecipeData] = useState(true);
 
     const [view, setView] = useState(true)
@@ -26,9 +28,15 @@ export default function Home ({currentUser}:HomeProps){
 
     const fetchDataRecipeChild = () => {setFetchRecipeData(!fetchRecipeData)}
 
-    const hideTable = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const hideTable = async (event: React.MouseEvent<HTMLButtonElement>) => {
         setView(false);
-        setViewID(+event.currentTarget.id) 
+        setViewID(+event.currentTarget.id)
+        const recipeData = await getRecipeById(+event.currentTarget.id)
+        console.log(recipeData)
+        setIngredients(recipeData[1])
+        console.log(ingredients)
+        setInstructions(recipeData[2])
+        console.log(instructions)    
     }
 
     const showTable = () => {
@@ -105,7 +113,7 @@ export default function Home ({currentUser}:HomeProps){
         {recipes?.filter(r => r.author.id ===currentUser?.id ).length === 0 ? <h3>None to display</h3>: <></>} */}
         </div>
         <div style={{display: view ? "none": ""}}>
-            {recipes?.filter(r => r.id === viewID).map(r => <RecipeCard key={String(viewID)} recipe = {r} fetchDataRecipeChild={fetchDataRecipeChild}/>)}
+            {recipes?.filter(r => r.id === viewID).map(r => <RecipeCard key={String(viewID)} recipe = {r} ingredients={ingredients} instructions = {instructions} fetchDataRecipeChild={fetchDataRecipeChild}/>)}
             <Button onClick={showTable}>View Other Recipes</Button>
         </div>
     </>

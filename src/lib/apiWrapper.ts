@@ -121,11 +121,11 @@ async function createRecipe(token:string, recipeData: RecipeFormDataType, ingred
     if (data) {
         data1 = await Promise.all(
             ingredientsData.map(
-                i => apiClientTokenAuth(token).post(`recipes/${data.id}/ingredients`, i))
+                i => apiClientTokenAuth(token).post(`/recipes/${data.id}/ingredients`, i))
         )
         data2= await Promise.all(
             instructionsData.map(
-                i => apiClientTokenAuth(token).post(`recipes/${data.id}/instructions`, i))
+                i => apiClientTokenAuth(token).post(`/recipes/${data.id}/instructions`, i))
             )
     }
     return { data, data1, data2, error }
