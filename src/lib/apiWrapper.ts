@@ -131,9 +131,11 @@ async function createRecipe(token:string, recipeData: RecipeFormDataType, ingred
     return { data, data1, data2, error }
 }
 
-async function getRecipeById(recipeId:string|number): Promise<APIResponse<RecipeType>> {
+async function getRecipeById(recipeId:string|number) {
     let data;
     let error;
+    let data1;
+    let data2;
     try{
         const response = await apiClientNoAuth().get(recipeEndpoint + '/' + recipeId)
         data = response.data
@@ -144,7 +146,11 @@ async function getRecipeById(recipeId:string|number): Promise<APIResponse<Recipe
             error = 'Something went wrong'
         }
     }
-    return { data, error }
+    if (data) {
+        data1= await apiClientNoAuth().get(`recipes/${recipeId}/ingredients`);
+        data2= await apiClientNoAuth().get(`recipes/${recipeId}/instructions`)
+    }
+    return [data, data1, data2, error]
 }
 
 async function editRecipeById(token:string,recipeId:string|number,  editedRecipeData: Partial<RecipeFormDataType>) {
