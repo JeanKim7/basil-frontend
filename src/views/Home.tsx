@@ -33,13 +33,16 @@ export default function Home ({currentUser}:HomeProps){
         setViewID(+event.currentTarget.id)
         const recipeData = await getRecipeById(+event.currentTarget.id)
         console.log(recipeData)
+        let sortedInstructions = recipeData[2].sort((a: InstructionType,b:InstructionType )=>(+a.stepNumber)-(+b.stepNumber))
         setIngredients(recipeData[1])
-        setInstructions(recipeData[2])   
+        setInstructions(sortedInstructions)   
     }
 
     const showTable = () => {
         setView(true)
         setViewID(0)
+        setIngredients([])
+        setInstructions([])
     }
 
     useEffect(() => {

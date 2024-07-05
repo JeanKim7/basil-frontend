@@ -80,13 +80,12 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
             </thead>
             <tbody>
                 {ingredients.map((i)=>
-                <div>
-                    <tr>
-                        <th>{i.name}</th>
-                        <th>{i.quantity}</th>
-                        <th>{i.unit}</th>
-                    </tr>
-                </div>)}
+                <tr>
+                    <th>{i.name}</th>
+                    <th>{i.quantity}</th>
+                    <th>{i.unit}</th>
+                </tr>
+                )}
             </tbody>
         </Table>
 
