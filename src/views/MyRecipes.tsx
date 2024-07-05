@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import {useState, useEffect } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,15 +7,65 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Accordion from 'react-bootstrap/Accordion';
+import Table from 'react-bootstrap/Table'
 
-import { deleteRecipeById } from '../lib/apiWrapper';
+import RecipeCard from '../components/RecipeCard';
 import CreateRecipeForm from '../components/CreateRecipeForm';
 import EditRecipeForm from '../components/EditRecipeForm';
+import { getAllRecipes, getRecipeById, deleteRecipeById } from '../lib/apiWrapper';
 
-export default function MyRecipes() {
+import { UserType, RecipeType, IngredientType, InstructionType } from '../types';
+
+type MyRecipesProps = {
+    currentUser: UserType | null,
+}
+
+export default function MyRecipes({currentUser}: MyRecipesProps) {
 
     const navigate = useNavigate()
 
+    const [recipes, setRecipes] = useState<RecipeType[]>([])
+    const [ingredients, setIngredients] = useState<IngredientType[]>([])
+    const [instructions, setInstructions] = useState<InstructionType[]>([])
+    const [fetchRecipeData, setFetchRecipeData] = useState(true);
+
+
+    const [view, setView] = useState(true)
+    const [viewID, setViewID] = useState<Number>(0)
+
+    const fetchDataRecipeChild = () => {setFetchRecipeData(!fetchRecipeData)}
+
+    const hideTable = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        setView(false);
+        setViewID(+event.currentTarget.id)
+        const recipeData = await getRecipeById(+event.currentTarget.id)
+        console.log(recipeData)
+        let sortedInstructions = recipeData[2].sort((a: InstructionType,b:InstructionType )=>(+a.stepNumber)-(+b.stepNumber))
+        setIngredients(recipeData[1])
+        setInstructions(sortedInstructions)   
+    }
+
+    const showTable = () => {
+        setView(true)
+        setViewID(0)
+        setIngredients([])
+        setInstructions([])
+    }
+
+    useEffect(() => {
+        
+        async function fetchData(){
+            const response = await getAllRecipes();
+                if (response.data){
+                console.log(response.data)
+                let recipes = response.data;
+                recipes.sort( (a, b) => (new Date(a.dateCreated) > new Date(b.dateCreated) ? -1 : 1) );
+                setRecipes(recipes)
+                
+            }
+        }
+        fetchData()
+    }, [fetchRecipeData])
     
     const [deleteRecipeID, setDeleteRecipeID]= useState<string>('')
 
@@ -74,6 +124,32 @@ export default function MyRecipes() {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
+            <div style={{display: view ? "": "none"}}>
+            <h1 className = "text-center mb-4"> My Recipes</h1>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Recipe Name</th>
+                        <th>Saves</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id ===currentUser?.id).map(r => 
+                    <tr>
+                        <td>{r.id}</td>
+                        <td>{r.name}</td>
+                        <td></td>
+                        <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
+                    </tr>)}
+                </tbody>
+            </Table>
+            </div>
+        <div style={{display: view ? "none": ""}}>
+            {recipes?.filter(r => r.id === viewID).map(r => <RecipeCard key={String(viewID)} recipe = {r} ingredients={ingredients} instructions = {instructions} fetchDataRecipeChild={fetchDataRecipeChild}/>)}
+            <Button onClick={showTable}>View Other Recipes</Button>
+        </div>
         </>
     )
 }

@@ -75,7 +75,7 @@ export default function App() {
           <Route path='/aboutUs' element={<AboutUs />} />
           <Route path ='/signup' element={<SignUp />} />
           <Route path = 'login' element = {<Login logUserIn = {logUserIn}/>} />
-          <Route path = '/myRecipes' element = {<MyRecipes />} />
+          <Route path = '/myRecipes' element = {<MyRecipes currentUser={loggedInUser} />} />
           <Route path = '/createRecipe' element = {<CreateRecipe/>} />
           <Route path='/search' element= {<SearchRecipe/>} />
         </Routes>

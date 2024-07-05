@@ -90,7 +90,7 @@ export default function Home ({currentUser}:HomeProps){
 
         {/* {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id !==currentUser?.id).map(r => <RecipeCard key = {r.id} recipe={r} fetchDataRecipeChild={fetchRecipeDataChild} />)} */}
 
-        <h1 className = "text-center mb-4"> My Recipes</h1>
+        {/* <h1 className = "text-center mb-4"> My Recipes</h1>
             <Table>
                 <thead>
                     <tr>
@@ -109,7 +109,7 @@ export default function Home ({currentUser}:HomeProps){
                         <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
                     </tr>)}
                 </tbody>
-            </Table>
+            </Table> */}
         {/* {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id ===currentUser?.id).map(r => <RecipeCard key = {r.id} recipe={r} fetchDataRecipeChild={fetchRecipeDataChild}/>)}
         {recipes?.filter(r => r.author.id ===currentUser?.id ).length === 0 ? <h3>None to display</h3>: <></>} */}
         </div>
