@@ -124,32 +124,34 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
+            
             <div style={{display: view ? "": "none"}}>
-            <h1 className = "text-center mb-4"> My Recipes</h1>
-            <Table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Recipe Name</th>
-                        <th>Saves</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id ===currentUser?.id).map(r => 
-                    <tr>
-                        <td>{r.id}</td>
-                        <td>{r.name}</td>
-                        <td></td>
-                        <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
-                    </tr>)}
-                </tbody>
-            </Table>
+                <h1 className = "text-center mb-4"> My Recipes</h1>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Recipe Name</th>
+                            <th>Saves</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {recipes && Array.isArray(recipes) && currentUser && recipes?.filter(r => r.author.id ===currentUser?.id).map(r => 
+                        <tr>
+                            <td>{r.id}</td>
+                            <td>{r.name}</td>
+                            <td></td>
+                            <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
+                        </tr>)}
+                    </tbody>
+                </Table>
             </div>
-        <div style={{display: view ? "none": ""}}>
-            {recipes?.filter(r => r.id === viewID).map(r => <RecipeCard key={String(viewID)} recipe = {r} ingredients={ingredients} instructions = {instructions} fetchDataRecipeChild={fetchDataRecipeChild}/>)}
-            <Button onClick={showTable}>View Other Recipes</Button>
-        </div>
+
+            <div style={{display: view ? "none": ""}}>
+                {recipes?.filter(r => r.id === viewID).map(r => <RecipeCard key={String(viewID)} recipe = {r} ingredients={ingredients} instructions = {instructions} fetchDataRecipeChild={fetchDataRecipeChild}/>)}
+                <Button onClick={showTable}>View Other Recipes</Button>
+            </div>
         </>
     )
 }
