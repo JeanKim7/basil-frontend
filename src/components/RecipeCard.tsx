@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup'
 
-import { RecipeType, IngredientType, InstructionType, RecipeFormDataType } from '../types';
+import { RecipeType,IngredientType, IngredientFormType, InstructionType, InstructionFormType, RecipeFormDataType } from '../types';
 import { createRecipe } from '../lib/apiWrapper';
 
 
@@ -29,7 +29,7 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
             servings: recipe.servings,
         }
         
-        const saveIngredients: IngredientType[] = []
+        const saveIngredients: IngredientFormType[] = []
         for (let i of ingredients) {
             saveIngredients.push({
                 name: i.name,
@@ -38,7 +38,7 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
             })
         }
 
-        const saveInstructions: InstructionType[] = []
+        const saveInstructions: InstructionFormType[] = []
         for (let i of instructions) {
             saveInstructions.push({
                 stepNumber: `${i.stepNumber}`,

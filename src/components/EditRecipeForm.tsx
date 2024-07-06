@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import {useState, useEffect } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,20 +7,24 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 
-import { RecipeFormDataType, IngredientType, InstructionType } from '../types';
+import { RecipeFormDataType, RecipeType, IngredientType, InstructionType } from '../types';
 import {editRecipeById} from '../lib/apiWrapper';
 
-export default function EditRecipeForm(){
+type EditRecipeFormProps = {
+    recipe: RecipeType,
+    // ingredients: IngredientType[],
+    // instructions: InstructionType[]
+}
+//, ingredients, instructions
+export default function EditRecipeForm({ recipe }: EditRecipeFormProps){
 
     const navigate = useNavigate()
-
-    const [editRecipeData, setEditRecipeData] = useState<Partial<RecipeFormDataType>>({})
-    const [editRecipeID, setEditRecipeID] = useState<string>('')
-
-    const handleInputChangeEditRecipeID = (event:React.ChangeEvent<HTMLInputElement>) => {
-        setEditRecipeID(event.target.value)
-    }
     
+    const [editRecipeData, setEditRecipeData] = useState<Partial<RecipeType>>(recipe)
+    // const [editIngredientsData, setEditIngredientsData] = useState<Partial<IngredientType>[]>(ingredients)
+    // const [editInstructionsData, setEditInstructionsData] = useState<Partial<InstructionType>[]>(instructions)
+
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditRecipeData({...editRecipeData, [event.target.name]:event.target.value})
     }
@@ -29,7 +33,7 @@ export default function EditRecipeForm(){
         event.preventDefault();
 
         const token=localStorage.getItem('token') || ''
-        const response = await editRecipeById(token, editRecipeID, editRecipeData)
+        const response = await editRecipeById(token, recipe.id, editRecipeData)
         if (response.error){
             console.log(response.error)
         } else if (response.data){
@@ -38,11 +42,12 @@ export default function EditRecipeForm(){
         }
     }
 
+    console.log("form", editRecipeData)
+
+
     return (
        <Card className ='my-1 p-3 recipe-input'>
             <Form onSubmit={handleFormSubmit}>
-                <Form.Label htmlFor='recipeID'>Recipe ID</Form.Label>
-                <Form.Control name = "recipeID" placeholder="Enter the ID of the recipe you want to edit" value= {editRecipeID} onChange = {handleInputChangeEditRecipeID}></Form.Control>
 
                 <Form.Label htmlFor="name">Name of Your Recipe</Form.Label> 
                 <Form.Control name="name" placeholder="Enter a name for your recipe" value= {editRecipeData.name} onChange={handleInputChange} />

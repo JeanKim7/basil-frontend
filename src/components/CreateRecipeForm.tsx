@@ -7,8 +7,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 
-import { RecipeFormDataType, IngredientType, InstructionType } from '../types';
-import {createRecipe, editRecipeById} from '../lib/apiWrapper';
+import { RecipeFormDataType, IngredientFormType, InstructionFormType } from '../types';
+import {createRecipe} from '../lib/apiWrapper';
 
 
 export default function CreateRecipeForm() {
@@ -28,7 +28,7 @@ export default function CreateRecipeForm() {
         setRecipe({...recipe, [event.target.name]:event.target.value})
     }
     
-    const [ingredients, setIngredients] = useState<IngredientType[]>([
+    const [ingredients, setIngredients] = useState<IngredientFormType[]>([
         {name: '',
         quantity: "",
         unit: ""
@@ -56,7 +56,7 @@ export default function CreateRecipeForm() {
         setIngredients(updatedIngredients)
     }
 
-    const [instructions, setInstructions] = useState<InstructionType[]>([
+    const [instructions, setInstructions] = useState<InstructionFormType[]>([
         {stepNumber: "",
         body: ""
         }

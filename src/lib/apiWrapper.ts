@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserType, UserFormDataType, TokenType, RecipeType, RecipeFormDataType, apiResponseType, IngredientType, InstructionType } from '../types';
+import { UserType, UserFormDataType, TokenType, RecipeType, RecipeFormDataType, apiResponseType, IngredientType, IngredientFormType, InstructionType, InstructionFormType } from '../types';
 
 const baseURL = 'https://project-basil-database.onrender.com'
 const userEndpoint = '/users'
@@ -102,7 +102,7 @@ async function getAllRecipes(): Promise<APIResponse<RecipeType[]>>{
 
 }
 
-async function createRecipe(token:string, recipeData: RecipeFormDataType, ingredientsData: IngredientType[], instructionsData: InstructionType[]) {
+async function createRecipe(token:string, recipeData: RecipeFormDataType, ingredientsData: IngredientFormType[], instructionsData: InstructionFormType[]) {
     let data;
     let error;
     let data1;

@@ -103,16 +103,29 @@ export type apiRecipeType = {
         dateModified: string | null,
     }
 
-export type IngredientType = {
+export type IngredientFormType = {
     name: string,
     quantity: string,
     unit: string
 }
 
-export type InstructionType = {
+export type IngredientType = {
+    id: number,
+    name: string,
+    quantity: string,
+    unit: string
+}
+
+export type InstructionFormType = {
     stepNumber: string,
     body: string
 }
 
-    export type CategoryType = 'primary' |'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
+export type InstructionType = {
+    id: number, 
+    stepNumber: string,
+    body: string
+}
+
+export type CategoryType = 'primary' |'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
 

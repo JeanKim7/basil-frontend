@@ -29,6 +29,8 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
     const [instructions, setInstructions] = useState<InstructionType[]>([])
     const [fetchRecipeData, setFetchRecipeData] = useState(true);
 
+    const [editRecipe, setEditRecipe] = useState<RecipeType>({} as RecipeType)
+
 
     const [view, setView] = useState(true)
     const [viewID, setViewID] = useState<Number>(0)
@@ -41,6 +43,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
         const recipeData = await getRecipeById(+event.currentTarget.id)
         console.log(recipeData)
         let sortedInstructions = recipeData[2].sort((a: InstructionType,b:InstructionType )=>(+a.stepNumber)-(+b.stepNumber))
+        setEditRecipe(recipeData[0])
         setIngredients(recipeData[1])
         setInstructions(sortedInstructions)   
     }
@@ -50,6 +53,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
         setViewID(0)
         setIngredients([])
         setInstructions([])
+        setEditRecipe({} as RecipeType)
     }
 
     useEffect(() => {
@@ -87,7 +91,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
     }
 
 
-
+    console.log(editRecipe)
 
     return (
         <>
@@ -104,7 +108,11 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
                 <Accordion.Item className='accord1' eventKey='1'>
                     <Accordion.Header>Edit a Recipe</Accordion.Header>
                     <Accordion.Body>
-                        <EditRecipeForm/>
+                        <div key={editRecipe.id}>
+                        <EditRecipeForm recipe={editRecipe}
+                        // ingredients = {ingredients} instructions = {instructions}
+                        />
+                        </div>
                     </Accordion.Body>
                 </Accordion.Item>
 
@@ -124,7 +132,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            
+
             <div style={{display: view ? "": "none"}}>
                 <h1 className = "text-center mb-4"> My Recipes</h1>
                 <Table>
