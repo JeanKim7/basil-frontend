@@ -91,8 +91,6 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
     }
 
 
-    console.log(editRecipe)
-
     return (
         <>
 
@@ -109,8 +107,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
                     <Accordion.Header>Edit a Recipe</Accordion.Header>
                     <Accordion.Body>
                         <div key={editRecipe.id}>
-                        <EditRecipeForm recipe={editRecipe}
-                        // ingredients = {ingredients} instructions = {instructions}
+                        <EditRecipeForm recipe={editRecipe} ingredients = {ingredients} instructions = { instructions}
                         />
                         </div>
                     </Accordion.Body>
