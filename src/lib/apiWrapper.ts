@@ -155,9 +155,15 @@ async function getRecipeById(recipeId:string|number) {
     return [data, data1, data2, error]
 }
 
-async function editRecipeById(token:string,recipeId:string|number,  editedRecipeData: Partial<RecipeFormDataType>) {
+async function editRecipeById(token:string, recipeId:string|number,  editedRecipeData: Partial<RecipeFormDataType>, editedIngredients: Partial<IngredientType>[], newIngredients: Partial<IngredientFormType>[], deletedIds: string[] | number[], editedInstructions: Partial<InstructionType>[], newInstructions: Partial<InstructionFormType>[], deletedIds2: string[] | number[]) {
     let data;
     let error;
+    let data1;
+    let data2;
+    let data3;
+    let data4;
+    let data5;
+    let data6
     try{
         const response = await apiClientTokenAuth(token).put(recipeEndpoint + '/' + recipeId, editedRecipeData)
         data = response.data
@@ -168,7 +174,26 @@ async function editRecipeById(token:string,recipeId:string|number,  editedRecipe
             error = 'Something went wrong'
         }
     }
-    return { data, error }
+    if (data) {
+        if (editedIngredients.length>1){
+        data1 = await Promise.all (editedIngredients.map(i => apiClientTokenAuth(token).put(`/recipes/${recipeId}/ingredients/${i.id}`, i)))}
+        
+        if (newIngredients.length>1){
+        data2 = await Promise.all (newIngredients.map(i => apiClientTokenAuth(token).post(`/recipes/${recipeId}/ingredients`, i)))}
+
+        if (deletedIds.length>1){
+        data3 = await Promise.all(deletedIds.map(i => apiClientTokenAuth(token).delete(`/recipes/${recipeId}/ingredients/${i}`)))}
+        
+        if (editedInstructions.length>1){
+        data4 = await Promise.all (editedInstructions.map(i => apiClientTokenAuth(token).put(`/recipes/${recipeId}/instructions/${i.id}`, i)))}
+
+        if (newInstructions.length>1){
+        data5 = await Promise.all (newInstructions.map(i => apiClientTokenAuth(token).post(`/recipes/${recipeId}/instructions`, i)))}
+
+        if (deletedIds.length>1){
+        data6 = await Promise.all(deletedIds2.map(i => apiClientTokenAuth(token).delete(`/recipes/${recipeId}/ingredients/${i}`)))}
+    }
+    return [ data, data1, data2, data3, data4, data5, data6, error ]
 }
 
 async function deleteRecipeById(token:string, recipeId:string|number) {

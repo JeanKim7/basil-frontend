@@ -1,4 +1,4 @@
-import {useState, useEffect } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 
-import { RecipeFormDataType, RecipeType, IngredientType, IngredientFormType, InstructionType, InstructionFormType } from '../types';
+import { RecipeType, IngredientType, IngredientFormType, InstructionType, InstructionFormType } from '../types';
 import {editRecipeById} from '../lib/apiWrapper';
 
 type EditRecipeFormProps = {
@@ -96,11 +96,41 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
         event.preventDefault();
 
         const token=localStorage.getItem('token') || ''
-        const response = await editRecipeById(token, recipe.id, editRecipeData)
-        if (response.error){
-            console.log(response.error)
-        } else if (response.data){
-            console.log(response.data)
+
+        let editIngData: Partial<IngredientType>[] = []
+        let newIngData: Partial<IngredientFormType>[] = []
+        
+        for (let i of editIngredients) {
+            if (i.id == -1){
+                newIngData.push({
+                    name: i.name,
+                    quantity: i.quantity,
+                    unit: i.unit
+                })
+            } else {
+                editIngData.push(i)
+            }
+        }
+
+        let editInsData: Partial<InstructionType>[] = []
+        let newInsData: Partial<InstructionFormType>[]= []
+
+        for (let i of editInstructions) {
+            if (i.id == -1){
+                newInsData.push({
+                    stepNumber: i.stepNumber,
+                    body: i.body
+                })
+            } else {
+                editInsData.push(i)
+            }
+        }
+
+        const response = await editRecipeById(token, recipe.id, editRecipeData, editIngData, newIngData, removedIngredients, editInsData, newInsData, removedInstructions )
+        if (response[7]){
+            console.log(response[7])
+        } else if (response[1]){
+            console.log(response[1], response[2], response[5])
             navigate('/Home')
         }
     }
