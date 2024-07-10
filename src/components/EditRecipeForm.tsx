@@ -128,9 +128,9 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
 
         const response = await editRecipeById(token, recipe.id, editRecipeData, editIngData, newIngData, removedIngredients, editInsData, newInsData, removedInstructions )
         if (response[7]){
-            console.log(response[7])
+            console.log(response[7], "error")
         } else if (response[1]){
-            console.log(response[1], response[2], response[5])
+            console.log(response[1], "successfully deleted")
             navigate('/Home')
         }
     }

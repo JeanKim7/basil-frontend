@@ -175,23 +175,23 @@ async function editRecipeById(token:string, recipeId:string|number,  editedRecip
         }
     }
     if (data) {
-        if (editedIngredients.length>1){
-        data1 = await Promise.all (editedIngredients.map(i => apiClientTokenAuth(token).put(`/recipes/${recipeId}/ingredients/${i.id}`, i)))}
+        if (editedIngredients.length>0){
+        data1 = await Promise.all (editedIngredients.map(i => apiClientTokenAuth(token).put(`/recipes/ingredients/${i.id}`, i)))}
         
-        if (newIngredients.length>1){
+        if (newIngredients.length>=0){
         data2 = await Promise.all (newIngredients.map(i => apiClientTokenAuth(token).post(`/recipes/${recipeId}/ingredients`, i)))}
 
-        if (deletedIds.length>1){
-        data3 = await Promise.all(deletedIds.map(i => apiClientTokenAuth(token).delete(`/recipes/${recipeId}/ingredients/${i}`)))}
+        if (deletedIds.length>0){
+        data3 = await Promise.all(deletedIds.map(i => apiClientTokenAuth(token).delete(`/recipes/ingredients/${i}`)))}
         
-        if (editedInstructions.length>1){
-        data4 = await Promise.all (editedInstructions.map(i => apiClientTokenAuth(token).put(`/recipes/${recipeId}/instructions/${i.id}`, i)))}
+        if (editedInstructions.length>0){
+        data4 = await Promise.all (editedInstructions.map(i => apiClientTokenAuth(token).put(`/recipes/instructions/${i.id}`, i)))}
 
-        if (newInstructions.length>1){
+        if (newInstructions.length>0){
         data5 = await Promise.all (newInstructions.map(i => apiClientTokenAuth(token).post(`/recipes/${recipeId}/instructions`, i)))}
 
-        if (deletedIds.length>1){
-        data6 = await Promise.all(deletedIds2.map(i => apiClientTokenAuth(token).delete(`/recipes/${recipeId}/ingredients/${i}`)))}
+        if (deletedIds2.length>0){
+        data6 = await Promise.all(deletedIds2.map(i => apiClientTokenAuth(token).delete(`/recipes/instructions/${i}`)))}
     }
     return [ data, data1, data2, data3, data4, data5, data6, error ]
 }
