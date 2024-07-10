@@ -25,7 +25,7 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
             name: recipe.name,
             description:recipe.description,
             cuisine: recipe.cuisine,
-            cookTime:recipe.cookTime,
+            cookTime: recipe.cookTime,
             servings: recipe.servings,
         }
         

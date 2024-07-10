@@ -113,7 +113,9 @@ export type IngredientType = {
     id: number,
     name: string,
     quantity: string,
-    unit: string
+    unit: string,
+    recipe_id: string,
+    user_id:string
 }
 
 export type InstructionFormType = {
@@ -124,7 +126,9 @@ export type InstructionFormType = {
 export type InstructionType = {
     id: number, 
     stepNumber: string,
-    body: string
+    body: string,
+    recipe_id: string,
+    user_id: string
 }
 
 export type CategoryType = 'primary' |'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
