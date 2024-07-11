@@ -212,6 +212,22 @@ async function deleteRecipeById(token:string, recipeId:string|number) {
     return { data, error }
 }
 
+async function sendSave (token:string, recipeId:string|number) {
+    let data;
+    let error;
+    try {
+        const response = await apiClientTokenAuth(token).post(recipeEndpoint+`/${recipeId}/save`)
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data?.error || `Recipe with ID ${recipeId} does not exist`
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
 async function apiSearch (search: string): Promise<APIResponse<apiResponseType>>{
     let data;
     let error;
@@ -237,5 +253,6 @@ export {
     createRecipe,
     deleteRecipeById,
     editRecipeById,
+    sendSave,
     apiSearch
 }

@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -5,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup'
 
 import { RecipeType,IngredientType, IngredientFormType, InstructionType, InstructionFormType, RecipeFormDataType } from '../types';
-import { createRecipe } from '../lib/apiWrapper';
+import { createRecipe, sendSave } from '../lib/apiWrapper';
 
 
 type RecipeCardProps = {
@@ -18,8 +20,11 @@ type RecipeCardProps = {
 
 export default function RecipeCard({ recipe, ingredients, instructions, fetchDataRecipeChild }: RecipeCardProps) {
     
+    const navigate = useNavigate()
+
     let currentUser= JSON.parse(localStorage.getItem('currentUser')!)
 
+    let ID = recipe.id
     const saveRecipe = async (recipe: RecipeFormDataType) => {
         const saveRecipe: RecipeFormDataType = {
             name: recipe.name,
@@ -47,13 +52,21 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
         }
 
         const token=localStorage.getItem('token') || ''
+        const response1 = await sendSave(token, ID)
+        if (response1.error){
+            console.log(response1.error)
+        } else if (response1.data){
+            console.log(response1.data)
             const response = await createRecipe(token, saveRecipe, saveIngredients, saveInstructions)
-            if (response.error){
-                console.log(response.error)
-            } else if (response.data){
-                console.log(response.data)
-                fetchDataRecipeChild()
-            }
+                if (response.error){
+                    console.log(response.error)
+                } else if (response.data){
+                    console.log(response.data)
+                }
+            fetchDataRecipeChild()
+            navigate('/myRecipes')
+        }
+        
     }
 
 

@@ -73,7 +73,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
     const newStep = () => {
         setEditInstructions([...editInstructions, {
             id: -1,
-            stepNumber: "",
+            stepNumber: `${editInstructions.length+1}`,
             body:""
         }])
 
