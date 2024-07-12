@@ -112,7 +112,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
                         <tr>
                             <td>{r.id}</td>
                             <td>{r.name}</td>
-                            <td></td>
+                            <td>{r.saves}</td>
                             <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
                         </tr>)}
                     </tbody>

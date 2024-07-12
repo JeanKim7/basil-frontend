@@ -52,7 +52,7 @@ export default function Home ({currentUser}:HomeProps){
                 if (response.data){
                 console.log(response.data)
                 let recipes = response.data;
-                recipes.sort( (a, b) => (new Date(a.dateCreated) > new Date(b.dateCreated) ? -1 : 1) );
+                recipes.sort( (a, b) => (a.saves > b.saves) ? -1 : 1 );
                 setRecipes(recipes)
                 
             }
@@ -82,7 +82,7 @@ export default function Home ({currentUser}:HomeProps){
                     <tr>
                         <td>{r.id}</td>
                         <td>{r.name}</td>
-                        <td>{r.save}</td>
+                        <td>{r.saves}</td>
                         <td><Button onClick={hideTable} id={`${r.id}`}>View Recipe</Button></td>
                     </tr>)}
                 </tbody>

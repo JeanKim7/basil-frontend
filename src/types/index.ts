@@ -25,8 +25,8 @@ export type RecipeType = {
     servings: string,
     dateCreated: string,
     author:UserType, 
-    comments: string
-
+    comments: string,
+    saves: number
 }
 
 export type RecipeFormDataType = {
