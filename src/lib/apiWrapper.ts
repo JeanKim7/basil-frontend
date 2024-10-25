@@ -9,11 +9,12 @@ const tokenEndpoint = '/token'
 const apiURL = 'https://www.themealdb.com/api/json/v1/1'
 
 
-
+//basic request shape for accessing server with no authentication
 const apiClientNoAuth = () => axios.create({
     baseURL: baseURL
 })
 
+//basic request shape for accessing server when user has logged in and is authenticated
 const apiClientBasicAuth = (username:string, password:string) => axios.create({
     baseURL: baseURL,
     headers: {
@@ -21,6 +22,7 @@ const apiClientBasicAuth = (username:string, password:string) => axios.create({
     }
 })
 
+//request for authorizing user after submitting token
 const apiClientTokenAuth = (token:string) => axios.create({
     baseURL: baseURL,
     headers: {
@@ -28,15 +30,18 @@ const apiClientTokenAuth = (token:string) => axios.create({
     }
 })
 
+//basic request for accessing the mealdb API
 const apiFoodNoAuth = () => axios.create({
     baseURL: apiURL
 })
 
+//type for API response, could have data or error message
 type APIResponse<T> = {
     data?: T,
     error?: string
 }
 
+//request for creating new user
 async function register(newUserData:UserFormDataType): Promise<APIResponse<UserType>>{
     let data;
     let error;
@@ -53,6 +58,7 @@ async function register(newUserData:UserFormDataType): Promise<APIResponse<UserT
     return { data, error }
 }
 
+//request for logging in to server, recieve token
 async function login(username:string, password:string): Promise<APIResponse<TokenType>>{
     let data;
     let error;
@@ -69,6 +75,7 @@ async function login(username:string, password:string): Promise<APIResponse<Toke
     return {data, error}
 }
 
+//request for retrieving info about user from server
 async function getMe(token:string): Promise<APIResponse<UserType>>{
     let data;
     let error;
@@ -85,6 +92,7 @@ async function getMe(token:string): Promise<APIResponse<UserType>>{
     return { data, error }
 }
 
+//request for getting all recipes from server, no authentication required
 async function getAllRecipes(): Promise<APIResponse<RecipeType[]>>{
     let data;
     let error;
@@ -102,6 +110,7 @@ async function getAllRecipes(): Promise<APIResponse<RecipeType[]>>{
 
 }
 
+//request for creating recipe; input recipe, instructions and ingredients
 async function createRecipe(token:string, recipeData: RecipeFormDataType, ingredientsData: IngredientFormType[], instructionsData: InstructionFormType[]) {
     let data;
     let error;
@@ -118,6 +127,7 @@ async function createRecipe(token:string, recipeData: RecipeFormDataType, ingred
             error = 'Something went wrong'
         }
     }
+    //submitting all instructions and ingredients at once with Promise.all request
     if (data) {
         data1 = await Promise.all(
             ingredientsData.map(
@@ -131,6 +141,7 @@ async function createRecipe(token:string, recipeData: RecipeFormDataType, ingred
     return { data, data1, data2, error }
 }
 
+//request for one id specifically, usually when showing one recipe in a card after clicking on it from the table
 async function getRecipeById(recipeId:string|number) {
     let data;
     let error;
@@ -146,6 +157,7 @@ async function getRecipeById(recipeId:string|number) {
             error = 'Something went wrong'
         }
     }
+    //fetch all ingredients and instructions for that one recipe
     if (data) {
         const response1 = await apiClientNoAuth().get(`/recipes/${recipeId}/ingredients`);
         data1=response1.data;
@@ -155,6 +167,7 @@ async function getRecipeById(recipeId:string|number) {
     return [data, data1, data2, error]
 }
 
+//request to edit a recipe
 async function editRecipeById(token:string, recipeId:string|number,  editedRecipeData: Partial<RecipeFormDataType>, editedIngredients: Partial<IngredientType>[], newIngredients: Partial<IngredientFormType>[], deletedIds: string[] | number[], editedInstructions: Partial<InstructionType>[], newInstructions: Partial<InstructionFormType>[], deletedIds2: string[] | number[]) {
     let data;
     let error;
@@ -175,6 +188,7 @@ async function editRecipeById(token:string, recipeId:string|number,  editedRecip
         }
     }
     if (data) {
+        //requests to edit, create and delete all ingredients and instructions that were edited, use promise.all request for each type
         if (editedIngredients.length>0){
         data1 = await Promise.all (editedIngredients.map(i => apiClientTokenAuth(token).put(`/recipes/ingredients/${i.id}`, i)))}
         
@@ -196,6 +210,7 @@ async function editRecipeById(token:string, recipeId:string|number,  editedRecip
     return [ data, data1, data2, data3, data4, data5, data6, error ]
 }
 
+//request to delete recipe
 async function deleteRecipeById(token:string, recipeId:string|number) {
     let data;
     let error;
@@ -212,6 +227,7 @@ async function deleteRecipeById(token:string, recipeId:string|number) {
     return { data, error }
 }
 
+//recipe to record when a user saves another user's recipe, recorded as save on original recipe
 async function sendSave (token:string, recipeId:string|number) {
     let data;
     let error;
@@ -228,10 +244,12 @@ async function sendSave (token:string, recipeId:string|number) {
     return { data, error }
 }
 
+//request for recipes from sesarch term
 async function apiSearch (search: string): Promise<APIResponse<apiResponseType>>{
     let data;
     let error;
     try{
+        //search term added to end of url request as required by the API
         const response = await apiFoodNoAuth().get(`/search.php?key=1&s=${search}`)
         data = response.data
     } catch(err) {
@@ -244,6 +262,7 @@ async function apiSearch (search: string): Promise<APIResponse<apiResponseType>>
     return { data, error }
 }
 
+//export all requests to be used in appropriate forms
 export {
     login,
     register,

@@ -24,6 +24,7 @@ export default function Login ({logUserIn}: LoginProps) {
         }
     )
 
+    //useState for user input when entering login credentials
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserFormData({...userFormData, [e.target.name]: e.target.value})
     }
@@ -32,10 +33,12 @@ export default function Login ({logUserIn}: LoginProps) {
         e.preventDefault();
         console.log('Logging in...')
 
+        //send username and password to backend to verify user exists
         const response = await login(userFormData.username!, userFormData.password!)
         if (response.error){
             console.log(response.error)
         } else {
+            //recieve token to time how long user will be logged in for
             const token = response.data!.token;
             const tokenExp = response.data!.tokenExpiration;
             console.log(response.data)
@@ -62,6 +65,7 @@ export default function Login ({logUserIn}: LoginProps) {
                     
                     <InputGroup>
                         <Form.Control id='password' name= 'password' placeholder='Enter password' type={!seePassword? 'password': 'text'} value = {userFormData.password} onChange = {handleInputChange}/>
+                        {/*allow password to be shown or hidden*/}
                         <InputGroup.Text onClick = {() => setSeePassword(!seePassword)}>{seePassword?"Hide" :"Show"}</InputGroup.Text>
                     </InputGroup>
                 

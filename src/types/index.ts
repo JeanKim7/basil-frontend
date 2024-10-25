@@ -1,3 +1,4 @@
+//type for existing user 
 export type UserType = {
     id:number,
     firstName:string,
@@ -7,6 +8,7 @@ export type UserType = {
     dateCreated:string
 }
 
+//type for form when user creates a new account
 export type UserFormDataType = {
     firstName:string,
     lastName:string,
@@ -16,6 +18,7 @@ export type UserFormDataType = {
     confirmPassword:string
 }
 
+//type for existing recipe
 export type RecipeType = {
     id: number, 
     name:string,
@@ -29,6 +32,7 @@ export type RecipeType = {
     saves: number
 }
 
+//type for form when user creates a new recipe
 export type RecipeFormDataType = {
     name:string,
     description:string,
@@ -37,16 +41,18 @@ export type RecipeFormDataType = {
     servings: string
 }
 
-
+//type for user token to time how long they can log in for
 export type TokenType = {
     token:string,
     tokenExpiration:string
 }
 
+//type for all recipes in API response from the mealdb
 export type apiResponseType  = {
     meals: apiRecipeType[] | []
 }
 
+//type for only ONE recipe in API response from the mealdb
 export type apiRecipeType = {
         idMeal: string,
         strMeal: string | null,
@@ -103,12 +109,14 @@ export type apiRecipeType = {
         dateModified: string | null,
     }
 
+//type for form when user creates one new ingredient
 export type IngredientFormType = {
     name: string,
     quantity: string,
     unit: string
 }
 
+//type for existing ingredient
 export type IngredientType = {
     id: number,
     name: string,
@@ -118,11 +126,13 @@ export type IngredientType = {
     user_id:string
 }
 
+//type for form when user creates one new instruction
 export type InstructionFormType = {
     stepNumber: string,
     body: string
 }
 
+//type for existing instruction
 export type InstructionType = {
     id: number, 
     stepNumber: string,
@@ -131,5 +141,6 @@ export type InstructionType = {
     user_id: string
 }
 
+//type for buttons
 export type CategoryType = 'primary' |'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
 

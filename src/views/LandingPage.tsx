@@ -14,6 +14,7 @@ export default function LandingPage () {
         navigate('/signup')
     }
 
+    //simple landing page to go to sign-up page
     return(
         <>
         <Container >
