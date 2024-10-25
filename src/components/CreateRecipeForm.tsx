@@ -15,6 +15,7 @@ export default function CreateRecipeForm() {
 
     const navigate = useNavigate()
 
+    //useState variable for basic recipe data
     const [recipe, setRecipe] = useState<RecipeFormDataType>({
         name: '',
         description: '',
@@ -28,6 +29,7 @@ export default function CreateRecipeForm() {
         setRecipe({...recipe, [event.target.name]:event.target.value})
     }
     
+    //useState for list of all ingredients in new recipe
     const [ingredients, setIngredients] = useState<IngredientFormType[]>([
         {name: '',
         quantity: "",
@@ -35,6 +37,7 @@ export default function CreateRecipeForm() {
         }
     ])
 
+    //index of input change (parameter of below function), matches index of ingredient in ingredients list, input will change corresponding ingredient
     function handleIngreInputChange (index: number, event) {
         const {name, value} = event.target
         const updatedIngredients = [...ingredients]
@@ -42,6 +45,7 @@ export default function CreateRecipeForm() {
         setIngredients(updatedIngredients)
     }
 
+    //add new ingredient to list, will map out to new input box
     const newIngred = () => {
         setIngredients([...ingredients,{
         name: '',
@@ -50,6 +54,7 @@ export default function CreateRecipeForm() {
         }])
     }
 
+    //remove ingredient from current list
     const removeIngred = (index: number) => {
         const updatedIngredients = [...ingredients]
         updatedIngredients.splice(index,1)
@@ -63,6 +68,7 @@ export default function CreateRecipeForm() {
     ]
     )
 
+    //just like ingredients, index of input box matches input of ingredient in useState list, makes sure correct instruction is changed 
     function handleStepInputChange(index:number, event) {
         const {name, value}= event.target
         const updatedInstructions = [...instructions]
@@ -71,6 +77,7 @@ export default function CreateRecipeForm() {
         setInstructions(updatedInstructions)
     }
 
+    //add new step in instructions, will be mapped out with a new input box
     const newStep = () => {
         setInstructions([...instructions, {
             stepNumber: "",
@@ -78,6 +85,7 @@ export default function CreateRecipeForm() {
         }])
     }
 
+    //remove instruction from current list
     const removeStep =(index:number) => {
         const updatedInstructions=[...instructions]
         updatedInstructions.splice(index, 1)
@@ -90,6 +98,7 @@ export default function CreateRecipeForm() {
         event.preventDefault();
 
         const token=localStorage.getItem('token') || ''
+        //input basic recipe data, ingredients and instructions to apiWrapper route
         const response = await createRecipe(token, recipe, ingredients, instructions)
         if (response.error){
             console.log(response.error)
@@ -123,6 +132,7 @@ export default function CreateRecipeForm() {
                     <div>
                         <Button onClick = {newIngred}>Add Ingredients</Button>
                         
+                        {/*index of input form matches index of corresponding ingredient in useState list*/}
                         {ingredients?.map((i, index) => 
                             <div key={index}>
                             <h5>Ingredient {index+1}</h5>
@@ -141,6 +151,7 @@ export default function CreateRecipeForm() {
 
                     <div>
                         <Button onClick = {newStep}>Add Step</Button>
+                        {/*each ingredient will be mapped to its own input box, when input changes, it will edit the corresponding ingredient in the useState list*/}
                         {instructions?.map((i, index) => 
                         <div key={index}>
                             <h5>Step {index+1}</h5>                            

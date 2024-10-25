@@ -35,7 +35,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
 
     //gave event in parameters "any" type because when type is defined in function below, it's not compatible with type in returned element at bottom of file, will have to change typescript configuration to "allow implicit any"
     
-    //add index for each ingredient edited to keep track of which ingredient is edited
+    //index parameter is index of input change, matches index of ingredient in editIngredients list, makes sure correct ingredient is edited
     function handleEditIngreInputChange (index: number, event) {
         const {name, value} = event.target
         const updatedIngredients = [...editIngredients]
@@ -53,10 +53,12 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
         }])
     }
 
+    //record ID of ingredient to remove and record on useState list
     const removeIngred = (index: number) => {
         const updatedIngredients = [...editIngredients]
         let removedId = updatedIngredients[index].id
-
+    
+    //remove ingredient from current list, update useState
         updatedIngredients.splice(index,1)
         setEditIngredients(updatedIngredients)
 
@@ -65,10 +67,12 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
         setRemovedIngredients(updatedIngredients1)
     }
 
+    //set use state for edited instruction and list of removed instructions' IDs
     const [editInstructions, setEditInstructions] = useState<Partial<InstructionType>[]>(instructions)
 
     const[removedInstructions, setRemovedInstructions] = useState<number[]>([])
 
+    //same error as with ingredients input with type of event 
     function handleStepChange(index:number, event) {
         const {name, value}= event.target
         const updatedInstructions = [...editInstructions]
@@ -77,6 +81,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
         setEditInstructions(updatedInstructions)
     }
 
+    //create new step, give index of-1 to easily identify when step needs to be created
     const newStep = () => {
         setEditInstructions([...editInstructions, {
             id: -1,
@@ -87,6 +92,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
 
     }
 
+    //record ID of instruction to be removed
     const removeStep =(index:number) => {
         const updatedInstructions=[...editInstructions]
         let removedStepId= updatedInstructions[index].id
@@ -99,11 +105,13 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
         setRemovedInstructions(updatedInstructions1)
     }
 
+
     const handleFormSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         const token=localStorage.getItem('token') || ''
 
+        //makes separate lists of ingredients to edit and add
         let editIngData: Partial<IngredientType>[] = []
         let newIngData: Partial<IngredientFormType>[] = []
         
@@ -119,6 +127,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
             }
         }
 
+        //make new lists of instructions to edit and add
         let editInsData: Partial<InstructionType>[] = []
         let newInsData: Partial<InstructionFormType>[]= []
 
@@ -133,6 +142,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
             }
         }
 
+        //input recipe ID, and all edited data into API wrapper
         const response = await editRecipeById(token, recipe.id, editRecipeData, editIngData, newIngData, removedIngredients, editInsData, newInsData, removedInstructions )
         if (response[7]){
             console.log(response[7], "error")
@@ -163,9 +173,11 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
                 <Form.Label htmlFor="servings">Servings</Form.Label>
                 <Form.Control name="servings" placeholder="Enter the servings your recipe will make" value= {editRecipeData.servings} onChange={handleInputChange} />
 
-                <div>
+                <div>   
+                        {/*creates new ingredient at end of editIngredients list, index in list matches index of input box*/}
                         <Button onClick = {newIngred}>Add Ingredients</Button>
                         
+                        {/*create new input box for each element */}
                         {editIngredients?.map((i, index) => 
                             <div key={index}>
                             <h5>Ingredient {index+1}</h5>
@@ -181,8 +193,10 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
                             </div>
                         )}
                 </div>
-
+                
+                
                 <div>
+                    {/*creates new instruction at end of editInstructions list, index in list matches index of input box*/}
                     <Button onClick = {newStep}>Add Step</Button>
                     {editInstructions?.map((i, index) => 
                     <div key={index}>
