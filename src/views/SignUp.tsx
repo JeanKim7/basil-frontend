@@ -15,6 +15,7 @@ export default function SignUp() {
 
     const navigate=useNavigate()
 
+    //set useState for password visibility and info entered when signing up
     const [seePassword, setSeePassword] = useState(false)
     const [userFormData, setUserFormData] = useState<UserFormDataType>(
         {
@@ -27,10 +28,12 @@ export default function SignUp() {
         }
     )
 
+    //set useState variables when user inputs
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserFormData({...userFormData, [e.target.name]: e.target.value})
     }
 
+    //send sign-up info to backend server
     const handleFormSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
 
@@ -46,6 +49,7 @@ export default function SignUp() {
         }
     }
 
+    //check password length and if same password is entered twice, allow submission only if params are met
     const disableSubmit = userFormData.password.length < 5 || userFormData.password !== userFormData.confirmPassword
 
     return (
@@ -77,6 +81,7 @@ export default function SignUp() {
                         <Form.Control id='confirmPassword' name= 'confirmPassword' placeholder='Confirm pasword' type={!seePassword? 'password': 'text'} value = {userFormData.confirmPassword} onChange = {handleInputChange}/>
                         <InputGroup.Text onClick = {() => setSeePassword(!seePassword)}>{seePassword?"Hide" :"Show"}</InputGroup.Text>
                     </InputGroup>
+                    {/*disable submit button if password is too short or passwords in input sections don't match*/}
                     <Button id = 'sign-up-btn' type ="submit" variant='success' disabled={disableSubmit}>Sign Up</Button>
                 </Form>
             </Card.Body>

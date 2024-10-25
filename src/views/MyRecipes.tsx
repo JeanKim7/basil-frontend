@@ -58,7 +58,7 @@ export default function MyRecipes({currentUser}: MyRecipesProps) {
                 if (response.data){
                 console.log(response.data)
                 let recipes = response.data;
-                recipes.sort( (a, b) => (new Date(a.dateCreated) > new Date(b.dateCreated) ? -1 : 1) );
+                recipes.sort( (a, b) => (a.saves > b.saves ? -1 : 1) );
                 setRecipes(recipes)
                 
             }
