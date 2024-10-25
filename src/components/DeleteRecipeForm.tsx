@@ -9,6 +9,7 @@ type DeleteRecipeFormProps = {
     recipeId: number
 }
 
+//id of recipe is already recorded, input into this form and delete the recipe
 export default function DeleteRecipeForm({recipeId}:DeleteRecipeFormProps){
 
     const navigate = useNavigate()

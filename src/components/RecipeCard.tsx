@@ -25,6 +25,8 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
     let currentUser= JSON.parse(localStorage.getItem('currentUser')!)
 
     let ID = recipe.id
+    //save recipes made by other users into user's own collection
+    //change data into forms to be submitted
     const saveRecipe = async (recipe: RecipeFormDataType) => {
         const saveRecipe: RecipeFormDataType = {
             name: recipe.name,
@@ -50,7 +52,8 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
                 body: i.body
             })
         }
-
+        
+        //user token and form data to send a request to create new recipe for user
         const token=localStorage.getItem('token') || ''
         const response1 = await sendSave(token, ID)
         if (response1.error){
@@ -70,6 +73,7 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
     }
 
 
+    //shows one recipe in detail that has been made by another user
     return (
         <>
         <Card className='my-3 bg-custom' text='black'>
@@ -82,6 +86,7 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
             </Card.Body>
             {recipe.author.id !== currentUser.id ? <Container className ="d-flex justify-content-center"><Button className='button-size' onClick = {() => saveRecipe(recipe)}>Save recipe</Button></Container>: <></>}
         </Card>
+        {/*list ingredients*/}
         <h1>Ingredients</h1>
         <Table>
             <thead>
@@ -101,7 +106,7 @@ export default function RecipeCard({ recipe, ingredients, instructions, fetchDat
                 )}
             </tbody>
         </Table>
-
+        {/*list instructions*/}
         <h1>Instructions</h1>
         <ListGroup>
             {instructions.map((i)=>

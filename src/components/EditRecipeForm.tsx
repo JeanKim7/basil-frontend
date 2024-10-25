@@ -15,21 +15,27 @@ type EditRecipeFormProps = {
     ingredients: IngredientType[],
     instructions: InstructionType[]
 }
-//, ingredients, instructions
+
+//form to edit recipe by editing, adding or removing ingredients or instructions 
 export default function EditRecipeForm({ recipe, ingredients, instructions }: EditRecipeFormProps){
 
     const navigate = useNavigate()
     
+    //set useStates for edited recipes
     const [editRecipeData, setEditRecipeData] = useState<Partial<RecipeType>>(recipe)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditRecipeData({...editRecipeData, [event.target.name]:event.target.value})
     }
 
+    //set useStates for edited ingredients and ID of removed ingredients
     const [editIngredients, setEditIngredients] = useState<Partial<IngredientType>[]>(ingredients)
 
     const[removedIngredients, setRemovedIngredients] = useState<number[]>([])
 
+    //gave event in parameters "any" type because when type is defined in function below, it's not compatible with type in returned element at bottom of file, will have to change typescript configuration to "allow implicit any"
+    
+    //add index for each ingredient edited to keep track of which ingredient is edited
     function handleEditIngreInputChange (index: number, event) {
         const {name, value} = event.target
         const updatedIngredients = [...editIngredients]
@@ -37,6 +43,7 @@ export default function EditRecipeForm({ recipe, ingredients, instructions }: Ed
         setEditIngredients(updatedIngredients)
     }
 
+    //give new ingredients id of -1 to later identify and create new ingredient
     const newIngred = () => {
         setEditIngredients([...editIngredients,{
         id: -1,

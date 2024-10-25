@@ -20,6 +20,7 @@ export default function SearchRecipeCard({ recipe, ingredients, instructions }: 
     
     const navigate = useNavigate()
 
+    //function to convert data from one API search recipe into appropriate forms 
     const saveRecipe = async (recipe: RecipeFormDataType) => {
         const saveRecipe: RecipeFormDataType = {
             name: recipe.name,
@@ -29,6 +30,7 @@ export default function SearchRecipeCard({ recipe, ingredients, instructions }: 
             servings: recipe.servings,
         }
         
+        //save each ingredient and store in list
         const saveIngredients: IngredientFormType[] = []
         for (let i of ingredients) {
             saveIngredients.push({
@@ -38,6 +40,7 @@ export default function SearchRecipeCard({ recipe, ingredients, instructions }: 
             })
         }
 
+        //save each instruction and store in a list
         const saveInstructions: InstructionFormType[] = []
         for (let i of instructions) {
             saveInstructions.push({
@@ -46,6 +49,7 @@ export default function SearchRecipeCard({ recipe, ingredients, instructions }: 
             })
         }
 
+        //retrieve token and create recipe using API wrapper
         const token=localStorage.getItem('token') || ''
             const response = await createRecipe(token, saveRecipe, saveIngredients, saveInstructions)
             if (response.error){
@@ -56,6 +60,7 @@ export default function SearchRecipeCard({ recipe, ingredients, instructions }: 
             }
     }
 
+    //component shows info of one recipe from search query on a card, ingredients and instructions mapped onto a table
     return (
         <>
             <Card className='my-3'>

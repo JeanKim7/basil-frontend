@@ -9,6 +9,8 @@ type NavigationProps ={
     logUserOut: () => void,
 }
 
+//navbar at top of website, each nav-link will go to a specific route and open a specific webpage
+//log user out function is passed down from App component
 export default function Navigation({isLoggedIn, logUserOut}: NavigationProps) {
   return (
     <Navbar id='navbar' className='white1'>
@@ -20,6 +22,7 @@ export default function Navigation({isLoggedIn, logUserOut}: NavigationProps) {
                   <Nav.Link as={Link} to='/Home' className='white1'>Home</Nav.Link>
                   <Nav.Link as={Link} to = '/myRecipes' className='white1'>My Recipes</Nav.Link>
                   <Nav.Link as= {Link} to ='/search' className='white1'>Search Recipes</Nav.Link>
+                  {/*logging user out function passed down from App component*/}
                   <Nav.Link as = {Link} onClick={()=>logUserOut()} to ='/' className='white1'>Log Out</Nav.Link>
                 </>
                 ):(
